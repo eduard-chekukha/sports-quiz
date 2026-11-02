@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101820">
+<title>Какой ты вид спорта?</title>
+<style>
+:root{--bg:#101820;--panel:#182630;--panel2:#20323e;--text:#f4f7f8;--muted:#a9bac3;--accent:#c8f169;--accent2:#f2a65a;--line:rgba(255,255,255,.12);--radius:22px}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 80% 0%,#28414b 0,transparent 42%),var(--bg)}
+button{font:inherit}.shell{width:min(760px,100%);margin:auto;padding:22px 18px 44px;min-height:100vh;display:flex;flex-direction:column}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:44px}.brand{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}.counter{font-size:12px;color:var(--muted)}
+main{flex:1;display:flex;flex-direction:column;justify-content:center}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}.hero h1{font-size:clamp(42px,9vw,76px);line-height:.98;letter-spacing:-.055em;margin:0 0 22px;max-width:680px}.hero p,.intro p{font-size:17px;line-height:1.65;color:var(--muted);max-width:570px}.hero .note{font-size:13px;margin-top:24px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{border:0;border-radius:999px;padding:15px 22px;font-weight:800;cursor:pointer;transition:transform .15s,background .15s}.btn:active{transform:scale(.98)}.primary{background:var(--accent);color:#142019}.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.btn:focus-visible,.option:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+.progress-wrap{margin:0 0 34px}.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:10px}.track{height:5px;border-radius:10px;background:rgba(255,255,255,.12);overflow:hidden}.fill{height:100%;width:0;background:var(--accent);transition:width .25s}
+.question h2{font-size:clamp(27px,6vw,42px);line-height:1.12;letter-spacing:-.035em;margin:0 0 12px}.question .sub{color:var(--muted);font-size:14px;margin:0 0 24px}.options{display:grid;gap:11px}.option{display:flex;align-items:center;gap:15px;text-align:left;width:100%;border:1px solid var(--line);border-radius:16px;padding:16px;background:rgba(255,255,255,.035);color:var(--text);cursor:pointer;transition:border .15s,background .15s,transform .15s}.option:hover{border-color:rgba(200,241,105,.65);background:rgba(200,241,105,.07)}.option .letter{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);color:var(--accent);font-size:12px;font-weight:900}.option span:last-child{font-size:15px;line-height:1.4}.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px}.text-btn{border:0;background:none;color:var(--muted);padding:12px 0;cursor:pointer}.text-btn:disabled{opacity:.25;cursor:default}
+.result{border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,5vw,38px);background:linear-gradient(145deg,rgba(200,241,105,.10),rgba(255,255,255,.025) 48%),var(--panel)}.result-icon{font-size:54px;line-height:1;margin-bottom:22px}.result h2{font-size:clamp(36px,8vw,60px);line-height:1;letter-spacing:-.05em;margin:8px 0 18px}.result .lead{font-size:18px;line-height:1.55;color:#e5edf0}.result p{color:var(--muted);line-height:1.65}.result h3{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:28px 0 10px}.traits{display:flex;flex-wrap:wrap;gap:8px}.tag{padding:8px 12px;border-radius:999px;background:var(--panel2);font-size:12px;color:#e7f0f3}.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.foot{font-size:11px;color:#80939d;margin-top:36px;line-height:1.5}
+.hidden{display:none!important}
+@media(min-width:650px){.shell{padding-top:30px}.top{margin-bottom:55px}.options{grid-template-columns:1fr 1fr}.option{min-height:88px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top"><div class="brand">ТЕСТ · СПОРТИВНЫЙ ХАРАКТЕР</div><div class="counter" id="topCounter">3–4 минуты</div></header>
+  <main>
+    <section class="hero" id="start">
+      <p class="eyebrow">Найди свой ритм</p>
+      <h1>Какой ты<br>вид спорта?</h1>
+      <p>Это не тест на физическую форму. Он исследует, как ты принимаешь решения, взаимодействуешь с людьми, справляешься с напряжением и получаешь удовольствие от движения.</p>
+      <p class="note">15 ситуаций · без правильных ответов · результат в конце</p>
+      <div class="actions"><button class="btn primary" id="startBtn">Начать тест <span aria-hidden="true">→</span></button></div>
+    </section>
+
+    <section class="question hidden" id="quiz" aria-live="polite">
+      <div class="progress-wrap"><div class="progress-meta"><span id="stepLabel">ВОПРОС 1 ИЗ 15</span><span id="percent">7%</span></div><div class="track"><div class="fill" id="progress"></div></div></div>
+      <p class="eyebrow">Представь ситуацию</p>
+      <h2 id="questionTitle"></h2><p class="sub" id="questionSub">Выбери вариант, который ближе всего к твоей естественной реакции.</p>
+      <div class="options" id="options"></div>
+      <div class="nav"><button class="text-btn" id="backBtn">← Назад</button><span class="counter">Выбери один ответ</span></div>
+    </section>
+
+    <section class="hidden" id="result" aria-live="polite"></section>
+  </main>
+  <footer class="foot">Развлекательный тест. Результат отражает выбранные ответы, а не спортивные способности, состояние здоровья или профессиональную пригодность.</footer>
+</div>
+<script>
+const questions = [
+ {q:"В незнакомой компании тебе предлагают сыграть в командную игру. Что скорее всего поможет включиться?",a:[
+  ["Я быстро считываю людей и нахожу общий ритм","team"],["Мне интереснее понять правила и найти выигрышную тактику","strategy"],["Хочу проверить себя и увидеть, на что способен лично","individual"],["Предпочту свободный формат, где можно импровизировать","flow"]]},
+ {q:"План на выходные внезапно меняется. Твоя реакция?",a:[
+  ["Отлично — спонтанность добавляет энергии","flow"],["Сначала оценю варианты и выберу самый разумный","strategy"],["Главное — не выпадать из движения, адаптируюсь на ходу","endurance"],["Соберу людей и предложу новый общий план","team"]]},
+ {q:"Что сильнее всего мотивирует тебя продолжать сложное дело?",a:[
+  ["Видимый прогресс и личный рекорд","individual"],["Ощущение, что я становлюсь выносливее","endurance"],["Понимание, что команда рассчитывает на меня","team"],["Интерес к самому процессу и возможность освоить тонкость","precision"]]},
+ {q:"В споре ты чаще…",a:[
+  ["Ищу точный аргумент и продумываю следующий ход","strategy"],["Стараюсь сохранить контакт и договориться","team"],["Говорю прямо и предпочитаю решить всё действием","power"],["Отхожу на шаг, чтобы увидеть ситуацию целиком","precision"]]},
+ {q:"Какой формат соревнования звучит привлекательнее?",a:[
+  ["Долгая дистанция, где важны терпение и темп","endurance"],["Дуэль один на один, где всё зависит от меня","individual"],["Командная игра с быстрыми сменами ролей","team"],["Технический вызов, где важна точность исполнения","precision"]]},
+ {q:"Когда появляется препятствие, ты обычно…",a:[
+  ["Разбиваю его на этапы и методично прохожу","endurance"],["Ищу нестандартный обходной путь","flow"],["Собираюсь и иду напролом","power"],["Анализирую слабое место и меняю стратегию","strategy"]]},
+ {q:"Какое ощущение после насыщенного дня для тебя самое приятное?",a:[
+  ["Я сделал больше, чем думал, что смогу","power"],["Мы вместе справились с непростой задачей","team"],["Голова стала ясной, тело и мысли в балансе","flow"],["Я отточил навык и почувствовал мастерство","precision"]]},
+ {q:"Тебе дают свободный час в новом месте. Что выберешь?",a:[
+  ["Исследовать пространство и двигаться без строгого маршрута","flow"],["Найти площадку, где можно посоревноваться","individual"],["Пройти длинный маршрут и посмотреть, сколько выдержу","endurance"],["Понаблюдать, потренироваться и освоить местную технику","precision"]]},
+ {q:"Как ты относишься к повторению одного и того же упражнения?",a:[
+  ["Нормально, если вижу, как растёт результат","individual"],["Люблю доводить движение до идеальной точности","precision"],["Предпочитаю разнообразие и новые задачи","flow"],["Повторение помогает держать стабильный темп","endurance"]]},
+ {q:"В команде ты чаще занимаешь какую роль?",a:[
+  ["Тот, кто задаёт темп и поддерживает остальных","team"],["Тот, кто замечает детали и просчитывает варианты","strategy"],["Тот, кто берёт на себя самый сложный участок","power"],["Тот, кто сохраняет спокойствие и баланс","precision"]]},
+ {q:"Что для тебя важнее в хорошем вызове?",a:[
+  ["Свобода действовать по-своему","flow"],["Чёткая цель и измеримый результат","individual"],["Сложность, которая требует характера","power"],["Партнёрство и взаимное доверие","team"]]},
+ {q:"Представь, что силы почти закончились. Что поможет сделать ещё один шаг?",a:[
+  ["Ритм и привычка не сдаваться","endurance"],["Мысль о цели, которую я сам себе поставил","individual"],["Поддержка людей рядом","team"],["Азарт: интересно, получится ли найти решение","strategy"]]},
+ {q:"Какой комплимент тебе приятнее услышать?",a:[
+  ["«На тебя можно положиться»","team"],["«У тебя железная воля»","power"],["«Ты чувствуешь движение и пространство»","flow"],["«Ты замечаешь то, что другие упускают»","precision"]]},
+ {q:"Если бы пришлось осваивать новый навык с нуля, что бы ты выбрал?",a:[
+  ["Постепенную программу с понятными этапами","endurance"],["Соревновательный формат с быстрым обратным откликом","individual"],["Занятия с партнёром или наставником","team"],["Эксперименты, пока не найду собственный стиль","flow"]]},
+ {q:"Какое описание ближе к твоему внутреннему девизу?",a:[
+  ["«Спокойно. Дистанция длинная»","endurance"],["«Думай на два шага вперёд»","strategy"],["«Соберись и сделай»","power"],["«Точность — это тоже сила»","precision"]]}
+];
+
+const profiles = {
+ team:{name:"Волейбол",icon:"🏐",lead:"Твоя сила раскрывается во взаимодействии. Ты чувствуешь динамику группы, умеешь подстраиваться и усиливать общий результат.",body:"Тебе подходит спорт, где важны доверие, коммуникация и быстрое переключение между личной инициативой и командной задачей. В волейболе каждый эпизод зависит от согласованности игроков — и именно такая среда может тебя заряжать.",traits:["Командное мышление","Чувство момента","Гибкость в общении"],also:"Баскетбол, гандбол, регби"},
+ strategy:{name:"Шахматы… на скорости: фехтование",icon:"🤺",lead:"Ты предпочитаешь сначала увидеть картину, а затем сделать точный ход. Тебя увлекает не хаос, а возможность прочитать его закономерности.",body:"Тебе может понравиться фехтование: здесь соединяются стратегия, реакция, дистанция и психологическая дуэль. Важен не только быстрый ответ, но и умение создать ситуацию, в которой этот ответ станет решающим.",traits:["Тактическое мышление","Наблюдательность","Расчёт"],also:"Настольный теннис, спортивное ориентирование, бадминтон"},
+ individual:{name:"Теннис",icon:"🎾",lead:"Тебе нравится личная ответственность и ясная обратная связь. Ты хочешь понимать, что именно зависит от тебя, и видеть собственный рост.",body:"Теннис соединяет самостоятельность, тактические решения и постоянную проверку навыка. Здесь можно соревноваться, анализировать ошибки и постепенно выстраивать свою игру.",traits:["Самостоятельность","Амбиция","Ориентация на прогресс"],also:"Скалолазание, лёгкая атлетика, единоборства"},
+ flow:{name:"Сёрфинг",icon:"🏄",lead:"Тебе важны свобода, ощущение момента и способность адаптироваться. Ты лучше раскрываешься там, где нет единственного заранее заданного сценария.",body:"Сёрфинг требует чувствовать среду, ловить подходящий момент и сохранять баланс в постоянно меняющихся условиях. Тебя может привлекать именно сочетание движения, импровизации и концентрации.",traits:["Адаптивность","Любопытство","Чувство баланса"],also:"Сноуборд, скейтбординг, горный велосипед"},
+ endurance:{name:"Бег на длинные дистанции",icon:"🏃",lead:"Ты умеешь держать курс, даже когда быстрый результат не приходит сразу. Тебе близки ритм, последовательность и внутренняя устойчивость.",body:"Длинные дистанции дают пространство для самостоятельного темпа и постепенного развития. Здесь важны терпение, умение распределять силы и доверие к собственному процессу.",traits:["Выносливость","Последовательность","Самодисциплина"],also:"Плавание, велоспорт, лыжные гонки"},
+ power:{name:"Бокс",icon:"🥊",lead:"Ты ценишь решительность и прямой вызов. Когда становится трудно, можешь собраться, мобилизоваться и действовать.",body:"Бокс сочетает физическую мощь, контроль, реакцию и дисциплину. Это не просто напор: хороший боксёр умеет сохранять хладнокровие, защищаться и выбирать момент.",traits:["Решительность","Смелость","Самоконтроль"],also:"Тяжёлая атлетика, дзюдо, гребля"},
+ precision:{name:"Стрельба из лука",icon:"🏹",lead:"Тебе близки концентрация, аккуратность и внимание к нюансам. Ты умеешь замедлиться, чтобы сделать действие качественно.",body:"Стрельба из лука требует устойчивости, контроля дыхания, повторяемой техники и ясного фокуса. Здесь результат складывается из множества небольших точных решений.",traits:["Внимание к деталям","Терпение","Контроль"],also:"Гольф, спортивная гимнастика, керлинг"}
+};
+let current=0, answers=[];
+const $=id=>document.getElementById(id);
+$("startBtn").addEventListener("click",()=>{ $("start").classList.add("hidden"); $("quiz").classList.remove("hidden"); render(); });
+function render(){
+ const q=questions[current], n=current+1, pct=Math.round(n/questions.length*100);
+ $("stepLabel").textContent=`ВОПРОС ${n} ИЗ ${questions.length}`;$("percent").textContent=pct+"%";$("progress").style.width=pct+"%";$("questionTitle").textContent=q.q;
+ $("options").innerHTML="";
+ q.a.forEach((a,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span></span>`;b.querySelector("span:last-child").textContent=a[0];b.addEventListener("click",()=>choose(a[1]));$("options").appendChild(b)});
+ $("backBtn").disabled=current===0;
+ $("topCounter").textContent=`${n} / ${questions.length}`;
+}
+function choose(value){answers[current]=value;if(current<questions.length-1){current++;render()}else showResult()}
+$("backBtn").addEventListener("click",()=>{if(current>0){current--;render()}});
+function showResult(){
+ const scores={team:0,strategy:0,individual:0,flow:0,endurance:0,power:0,precision:0};
+ answers.forEach((v,i)=>{scores[v]+=1});
+ const ranked=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+ const winner=ranked[0][0], second=ranked[1][0], p=profiles[winner], s=profiles[second];
+ const traits=[...p.traits];
+ $("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("topCounter").textContent="ТВОЙ РЕЗУЛЬТАТ";
+ $("result").innerHTML=`<div class="result"><div class="result-icon">${p.icon}</div><p class="eyebrow">ТВОЙ СПОРТИВНЫЙ АРХЕТИП</p><h2>${p.name}</h2><p class="lead">${p.lead}</p><p>${p.body}</p><h3>Твои сильные стороны</h3><div class="traits">${traits.map(t=>`<span class="tag">${t}</span>`).join("")}</div><h3>Что ещё может подойти</h3><p>${p.also}</p><p style="font-size:13px;margin-top:22px">Второй близкий тип — <strong style="color:#f4f7f8">${s.name}</strong>. Это означает, что в твоих ответах проявились черты сразу нескольких спортивных характеров.</p><div class="result-actions"><button class="btn primary" id="shareBtn">Поделиться результатом</button><button class="btn secondary" id="againBtn">Пройти ещё раз</button></div></div>`;
+ $("shareBtn").addEventListener("click",share);$("againBtn").addEventListener("click",restart);
+}
+async function share(){
+ const title="Мой спортивный характер";
+ const text=`Мой результат теста «Какой ты вид спорта?» — ${profiles[answers.reduce((m,v)=>{m[v]=(m[v]||0)+1;return m},{}) && Object.entries(answers.reduce((m,v)=>{m[v]=(m[v]||0)+1;return m},{})).sort((a,b)=>b[1]-a[1])[0][0]].name}. А какой спорт подходит тебе?`;
+ if(navigator.share){try{await navigator.share({title,text,url:location.href})}catch(e){}}
+ else if(navigator.clipboard){try{await navigator.clipboard.writeText(text+" "+location.href);$("shareBtn").textContent="Текст скопирован"}catch(e){$("shareBtn").textContent="Не удалось скопировать"}}
+ else {$("shareBtn").textContent="Скопируй адрес страницы"}
+}
+function restart(){current=0;answers=[];$("result").classList.add("hidden");$("start").classList.remove("hidden");$("topCounter").textContent="3–4 минуты"}
+</script>
+</body>
+</html>
